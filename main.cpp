@@ -73,9 +73,15 @@ int main(int argc, char **argv) {
     exitLoc->col = 3;
 
     if(p->is_human() && (*exitLoc == p->get_position())){
-        std::cout << p->get_name() << " is the winner!" << std::endl;
+        std::cout << std::endl << p->get_name() << " is the winner!" << std::endl;
     }else{
-        std::cout << "The enemy has won." << std::endl;
+        std::cout << std::endl << "The enemy has won." << std::endl;
+    }
+
+    std::cout << std::endl << "FINAL STATS";
+    for(int i=0; i < numPlayers; i++){
+        std::cout << std::endl << "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" << std::endl;
+        players[i]->PrintPlayerInfo(*players[i]);
     }
 
     return 0;
