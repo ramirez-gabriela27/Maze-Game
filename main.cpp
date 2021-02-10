@@ -54,5 +54,7 @@ int main(int argc, char **argv) {
         gameOver = game->IsGameOver();
     }
 
+    std::cout << "The game has ended" << std::endl;
+
     return 0;
 }
