@@ -16,6 +16,12 @@ Main
 
 int main(int argc, char **argv) {
 
+    //FOR 5 POINTS MORE
+    //Implement a certain amount of moves that the player has to complete this in
+        //this will include human and non-human moves
+    //I think 20 moves total is a good amount - could be wrong
+    int moveCap = 20;
+
     std::string name;
 
     std::cout << "Please enter a player name: " << std::endl;
@@ -42,7 +48,10 @@ int main(int argc, char **argv) {
 
     bool gameOver = false;
     int numPlayers = players.size();
-    while(!gameOver){
+
+    std::cout << std::endl << "YOU MUST COMPLETE THIS GAME IN " << moveCap << " MOVES"  << std::endl;
+    int turns = 0;
+    while(!gameOver && turns < moveCap){
         //call TakeTurn with game's vector of players in mind
             // each time, print status, map and list of moves
             // take user input to move -- if valid
@@ -54,8 +63,10 @@ int main(int argc, char **argv) {
             if(gameOver){ break; }
 
             std::cout << "~~~~~~~~~~~~~~~~~NEXT TURN~~~~~~~~~~~~~~~~~" << std::endl;
+            std::cout << moveCap - turns << " MOVES LEFT" << std::endl;
 
             game->TakeTurn(players[i]);
+            turns++;
 
             // after turn is over, move on to the next player and repeat
             // nextPlayer = game->GetNextPlayer();
