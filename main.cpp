@@ -38,23 +38,45 @@ int main(int argc, char **argv) {
     //  -- human hasn't reached exit
     //  -- moves are available
 
-    Player *nextPlayer = p;
+    std::vector<Player *> players = game->GetPlayers();
+
     bool gameOver = false;
+    int numPlayers = players.size();
     while(!gameOver){
         //call TakeTurn with game's vector of players in mind
             // each time, print status, map and list of moves
             // take user input to move -- if valid
             // move and update map
             // print updated map
-            game->TakeTurn(nextPlayer);
 
-        // after turn is over, move on to the next player and repeat
-        nextPlayer = game->GetNextPlayer();
+        //loop trought player array
+        for(int i=0; i < numPlayers; i++){
+            if(gameOver){ break; }
 
-        gameOver = game->IsGameOver();
+            std::cout << "~~~~~~~~~~~~~~~~~NEXT TURN~~~~~~~~~~~~~~~~~" << std::endl;
+
+            game->TakeTurn(players[i]);
+
+            // after turn is over, move on to the next player and repeat
+            // nextPlayer = game->GetNextPlayer();
+            gameOver = game->IsGameOver();
+        }
+        // // after turn is over, move on to the next player and repeat
+        // // nextPlayer = game->GetNextPlayer();
+        // gameOver = game->IsGameOver();
     }
 
     std::cout << "The game has ended" << std::endl;
+
+    Position *exitLoc = new Position;
+    exitLoc->row = 3;
+    exitLoc->col = 3;
+
+    if(p->is_human() && (*exitLoc == p->get_position())){
+        std::cout << p->get_name() << " is the winner!" << std::endl;
+    }else{
+        std::cout << "The enemy has won." << std::endl;
+    }
 
     return 0;
 }

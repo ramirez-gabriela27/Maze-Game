@@ -21,6 +21,9 @@ public:
 	// constructor
 	Maze();
 
+	//return player array
+	std::vector<Player *> GetPlayers(){return players_;}
+
 	// initialize a new game, given one human player and
 	// a number of enemies to generate
 	void NewGame(Player *human, const int enemies);
@@ -28,8 +31,8 @@ public:
 	// have the given Player take their turn
 	void TakeTurn(Player *p);
 
-	// Get the next player in turn order
-	Player * GetNextPlayer();
+	// // Get the next player in turn order
+	// Player * GetNextPlayer();
 
 	// return true iff the human made it to the exit
 	// or the enemies ate all the humans

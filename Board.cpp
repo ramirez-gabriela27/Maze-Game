@@ -19,12 +19,12 @@ Board Implementations
 */
 std::string SquareTypeStringify(SquareType sq){
 	std::string strType;
-	if(sq == SquareType::Wall) { strType = "🥒";}
-	else if(sq == SquareType::Exit) { strType = "✨";}
+	if(sq == SquareType::Wall) { strType = "⬛️";}
+	else if(sq == SquareType::Exit) { strType = "🏡";}
 	else if(sq == SquareType::Empty) { strType = "🐾";}
-	else if(sq == SquareType::Human) { strType = "🐱";}
+	else if(sq == SquareType::Human) { strType = "🐶";}
 	else if(sq == SquareType::Enemy) { strType = "👹";}
-	else if(sq == SquareType::Treasure) { strType = "🧶";}
+	else if(sq == SquareType::Treasure) { strType = "🦴";}
 	else{ strType = "ERROR";}
 	return strType;
 }

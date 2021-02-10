@@ -152,9 +152,9 @@ void Maze::TakeTurn(Player *p){
 }
 
 // Get the next player in turn order
-Player * Maze::GetNextPlayer(){
-    Player *next =  players_[0];
-}
+// Player * Maze::GetNextPlayer(){
+//     Player *next =  players_[0];
+// }
 
 /*
     State of game based on completion
@@ -176,20 +176,31 @@ bool Maze::IsGameOver(){
     }
 
     //check if human is still on map, if so, game continues
-    bool humansHERE = false;
+    //bool humansHERE = false;
 
     for(int i=0; i < numPlayers; i++){
-        if(players_[i]->is_human()){
-            humansHERE = true;
-        }
+        // if(players_[i]->is_human()){
+        //     humansHERE = true;
+        // }
         //if human has made it to exit, it's over
         if(players_[i]->is_human() && (*exitLoc == players_[i]->get_position())){
             return true;
         }
     }
-    if(!humansHERE){
-        return true;
-    }else{
-        return false;
+    // if(!humansHERE){
+    //     return true;
+    // }else{
+    //     return false;
+    // } useless
+    
+    //check if enemy are on human, if so, gameover
+    for(int i=1; i < numPlayers-1; i++){
+        //if human has made it to exit, it's over
+        if(players_[0]->get_position() == players_[i]->get_position()){
+            return true;
+        }
     }
+    
+    return false;
+    
 }
