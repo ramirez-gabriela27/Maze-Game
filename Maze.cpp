@@ -87,7 +87,7 @@ void Maze::NewGame(Player *human, const int enemies){
     @param *p (Player) - Player taking turn
 */
 void Maze::TakeTurn(Player *p){
-    std::cout << "It is now " << p->get_name() << "\'s turn." << std::endl;
+    std::cout << std::endl << "It is now " << p->get_name() << "\'s turn." << std::endl;
     std::cout << "=============STATUS=============";
     p->PrintPlayerInfo(*p);
     std::cout << std::endl << "==============MAP==============" << std::endl;
@@ -100,33 +100,86 @@ void Maze::TakeTurn(Player *p){
     for(int i=0; i < mSize; i++){
         std::cout << p->ToRelativePosition(posMoves[i]) << " ";
     }
-    std::cout << std::endl << "Please select a move:" << std::endl;
-    std::string choice;
-    std::cin >> choice;
 
-    for(int i=0; i < mSize; i++){
-        if(choice == p->ToRelativePosition(posMoves[i])){
-            if(board_->get_square_value(posMoves[i]) == SquareType::Treasure){
-                //assuming all treasures are 100 pts
-                p->SetPoints(p->get_points() +100);
+    if(mSize == 0){
+        std::cout << std::endl << "Seems like you are out of moves";
+        //in which case, next player moves or the game ends
+
+    }else{
+        std::cout << std::endl << "Please select a move:" << std::endl;
+        std::string choice;
+        std::cin >> choice;
+        bool valid = false;
+        //assume choice is invalid, then check
+        for(int i=0; i < mSize; i++){
+            if(choice == p->ToRelativePosition(posMoves[i])){
+                valid = true;
             }
-            board_->MovePlayer(p, posMoves[i]);
         }
-    }
+        //if not valid, prompt user for a valid option until valid
+        while(!valid){
+            std::cout << "Invalid choice - please try again" << std::endl;
+            std::cin >> choice;
+            for(int i=0; i < mSize; i++){
+                if(choice == p->ToRelativePosition(posMoves[i])){
+                    valid = true;
+                }
+            }
+        }
 
-}
+        //move accordingly
+        for(int i=0; i < mSize; i++){
+            if(choice == p->ToRelativePosition(posMoves[i])){
+                if(board_->get_square_value(posMoves[i]) == SquareType::Treasure){
+                    //assuming all treasures are 100 pts
+                    p->SetPoints(p->get_points() +100);
+                }
+                board_->MovePlayer(p, posMoves[i]);
+            }
+        }
+
+        //display updated map
+        std::cout << std::endl << "==========UPDATED MAP==========" << std::endl;
+        std::cout << p->get_name() << " moved " << choice << std::endl;
+        board_->PrintBoard(*board_);
+    }
+    //player has moved , points updated accordingly, now and turn is over
+} //GOTTA UPDATE FOR ENEMY
 
 //might wanna go into office hours for this one
 // // Get the next player in turn order
 // Player * GetNextPlayer();
 
-// return true iff the human made it to the exit
-// or the enemies ate all the humans
 /*
     State of game based on completion
     return state (bool) - true if human made it to exit or enemies won
 */
 bool Maze::IsGameOver(){
-    bool state = false;
-    return state;
+    int numPlayers = players_.size();
+
+    //if you're out of moves, game is over
+    for(int i=0; i < numPlayers; i++){
+        std::vector<Position> moves= board_->GetMoves(players_[i]);
+        if(moves.size() == 0){
+            return true;
+        }
+    }
+
+    //check if human is still on map, if so, game continues
+    bool humansHERE = false;
+
+    for(int i=0; i < numPlayers; i++){
+        if(players_[i]->is_human()){
+            humansHERE = true;
+        }
+        //if human has made it to exit, it's over
+        if(players_[i]->is_human() && (SquareType::Exit == board_->get_square_value(players_[i]->get_position()))){
+            return true;
+        }
+    }
+    if(!humansHERE){
+        return true;
+    }else{
+        return false;
+    }
 }

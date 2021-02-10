@@ -27,12 +27,17 @@ int main(int argc, char **argv) {
     Maze *game = new Maze();
     game->NewGame(p,2); //this prints the map at first
 
+    // while(!game->IsGameOver()){
+    //     std::cout << "STILL GOING ON" << std::endl;
+    // } loop to keep the game going
+
     game->TakeTurn(p);
     // print who's turn
     // print the status
     // print the map, prompt user to input, move and print again.
 
-    
+    Player *pE = new Player("enemy1", false);
+    game->TakeTurn(pE);
 
     // std::cout << std::endl << "=====================";
     //

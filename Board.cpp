@@ -86,8 +86,9 @@ bool Board::testPosition(Position there){
     if(there.row<0 || there.col<0 ){
         return false;
     }else{
-        if(get_square_value(there) == SquareType::Empty || get_square_value(there) == SquareType::Treasure){
+        if(get_square_value(there) != SquareType::Enemy && get_square_value(there) != SquareType::Wall){
             //can only move into an epty space, or a treasure space
+            //enemies can move to human spaces and eat them
             return true;
         }else{
             return false;
