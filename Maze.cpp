@@ -103,6 +103,7 @@ void Maze::TakeTurn(Player *p){
 
     if(mSize == 0){
         std::cout << std::endl << "Seems like you are out of moves";
+        std::cout << std::endl << "GAME OVER" << std::endl;
         //in which case, next player moves or the game ends
 
     }else{
@@ -133,6 +134,10 @@ void Maze::TakeTurn(Player *p){
                 if(board_->get_square_value(posMoves[i]) == SquareType::Treasure){
                     //assuming all treasures are 100 pts
                     p->SetPoints(p->get_points() +100);
+                }                
+                if(board_->get_square_value(posMoves[i]) == SquareType::Exit && (p->is_human())){
+                    //assuming all treasures are 100 pts
+                    p->SetPoints(p->get_points() +1);
                 }
                 board_->MovePlayer(p, posMoves[i]);
             }
@@ -144,11 +149,12 @@ void Maze::TakeTurn(Player *p){
         board_->PrintBoard(*board_);
     }
     //player has moved , points updated accordingly, now and turn is over
-} //GOTTA UPDATE FOR ENEMY
+}
 
-//might wanna go into office hours for this one
-// // Get the next player in turn order
-// Player * GetNextPlayer();
+// Get the next player in turn order
+Player * Maze::GetNextPlayer(){
+    Player *next =  players_[0];
+}
 
 /*
     State of game based on completion
@@ -156,10 +162,14 @@ void Maze::TakeTurn(Player *p){
 */
 bool Maze::IsGameOver(){
     int numPlayers = players_.size();
+    
+    Position *exitLoc = new Position;
+    exitLoc->row = 3;
+    exitLoc->col = 3;
 
-    //if you're out of moves, game is over
     for(int i=0; i < numPlayers; i++){
         std::vector<Position> moves= board_->GetMoves(players_[i]);
+        //if player is out of moves, game is over
         if(moves.size() == 0){
             return true;
         }
@@ -173,7 +183,7 @@ bool Maze::IsGameOver(){
             humansHERE = true;
         }
         //if human has made it to exit, it's over
-        if(players_[i]->is_human() && (SquareType::Exit == board_->get_square_value(players_[i]->get_position()))){
+        if(players_[i]->is_human() && (*exitLoc == players_[i]->get_position())){
             return true;
         }
     }

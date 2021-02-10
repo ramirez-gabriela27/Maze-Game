@@ -85,6 +85,8 @@ SquareType Board::get_square_value(Position pos) const{
 bool Board::testPosition(Position there){
     if(there.row<0 || there.col<0 ){
         return false;
+    }else if(there.row > 3 || there.col > 3){
+        return false;
     }else{
         if(get_square_value(there) != SquareType::Enemy && get_square_value(there) != SquareType::Wall){
             //can only move into an epty space, or a treasure space

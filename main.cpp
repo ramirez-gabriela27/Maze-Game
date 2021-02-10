@@ -18,66 +18,41 @@ int main(int argc, char **argv) {
 
     std::string name;
 
-    std::cout << "Please enter a name: " << std::endl;
+    std::cout << "Please enter a player name: " << std::endl;
     std::cin >> name;
+    std::cout << std::endl << " ******** let the game begin ********"  << std::endl;
 
-    ////////////////test to print player//////////////////
+    //initialize human player
     Player *p = new Player(name, true);
-
+    //initialize game
     Maze *game = new Maze();
+    //we start eith 2 enemies, randomly located
     game->NewGame(p,2); //this prints the map at first
 
-    // while(!game->IsGameOver()){
-    //     std::cout << "STILL GOING ON" << std::endl;
-    // } loop to keep the game going
+    //if a player is out of moves, it moves on to the next player
+    //this will continue until there are no moves, in which case it terminates
+    //  --game is neither won or lost
 
-    game->TakeTurn(p);
-    // print who's turn
-    // print the status
-    // print the map, prompt user to input, move and print again.
+    //to proceed through game, IsGameOver() has to be false
+    //  -- i.e. there has to be a huma on board
+    //  -- human hasn't reached exit
+    //  -- moves are available
 
-    Player *pE = new Player("enemy1", false);
-    game->TakeTurn(pE);
+    Player *nextPlayer = p;
+    bool gameOver = false;
+    while(!gameOver){
+        //call TakeTurn with game's vector of players in mind
+            // each time, print status, map and list of moves
+            // take user input to move -- if valid
+            // move and update map
+            // print updated map
+            game->TakeTurn(nextPlayer);
 
-    // std::cout << std::endl << "=====================";
-    //
-    // ////////////////test to print board//////////////////
-    // Board *testBoard = new Board();
-    //
-    // testBoard->PrintBoard(*testBoard);
-    //
-    // std::cout << "=====================" << std::endl;
-    //
-    // ////////////////test to GetMoves /////////////////
-    // std::vector<Position> moves = testBoard->GetMoves(p);
-    // int mSize = moves.size();
-    // for(int i=0; i < mSize; i++){
-    //     std::cout << "(" << moves[i].row << "," << moves[i].col << ") ";
-    // }
-    //
-    //
-    // std::cout << std::endl << "=====================" << std::endl;
-    //
-    // ////////////////test set value//////////////////
-    // std::cout << "Trying to set exit to enemy:";
-    // Position *test = new Position;
-    // test->row = 3;
-    // test->col = 3;
-    //
-    // testBoard->SetSquareValue(*test, SquareType::Enemy);
-    //
-    // testBoard->PrintBoard(*testBoard);
-    //
-    // std::cout << "=====================" << std::endl;
-    //
-    // ////////////////test move player//////////////////
-    // std::cout << "Trying to move right:";
-    // Position *tRight = new Position;
-    // tRight->row = p->get_position().row;
-    // tRight->col = p->get_position().col + 1;
-    // testBoard->MovePlayer(p, *tRight);
-    // testBoard->PrintBoard(*testBoard);
-    //
+        // after turn is over, move on to the next player and repeat
+        nextPlayer = game->GetNextPlayer();
+
+        gameOver = game->IsGameOver();
+    }
 
     return 0;
 }
